@@ -1,0 +1,43 @@
+
+        private async void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            await Task.Delay(1000);
+            WebClient updatecheck = new WebClient();
+            panel2.Width = 120;
+            gunaLabel1.Text = ("Checking For Update...");
+            await Task.Delay(1000);
+            if (!updatecheck.DownloadString("https://raw.githubusercontent.com/666-1238/UpdateCheck/main/Update%20Check").Contains("1.00.17.09"))
+            {
+                
+                gunaLabel1.Text = ("Incorrect Version");
+                MessageBox.Show("You Do Not Have The Correct Version Of NoName Executor. Join The Discord Server For Newer Version!", "NoVersion Checker");
+                Clipboard.SetText("COMING SOON!");
+                await Task.Delay(1000);
+                Application.Exit();
+            }
+            else
+            {
+                panel2.Width = 210; 
+                gunaLabel1.Text = ("Checking For Patch");
+                await Task.Delay(1000);
+                WebClient patchcheck = new WebClient();
+                if (!patchcheck.DownloadString("https://raw.githubusercontent.com/666-1238/UpdateCheck/main/PatchCheck").Contains("notpatched"))
+                {
+                    MessageBox.Show("NoName Executor Is Currently Patched/And Bannable", "NoPatched Checker");
+                    await Task.Delay(1000);
+                    Application.Exit();
+                }
+                else
+                {
+                    panel2.Width = 310;
+                    gunaLabel1.Text = ("Loading Executor...");
+                    await Task.Delay(1500);
+                    panel2.Width = 425;
+                    await Task.Delay(1500);
+                    this.Hide();
+                    executor executor = new executor();
+                    executor.Show();
+                }
+            }
+        }
